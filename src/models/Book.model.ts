@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import {Entity, model, property} from '@loopback/repository';
+import {Entity, belongsTo, model, property} from '@loopback/repository';
+import {Author, AuthorWithRelations} from './Author.model';
 
 @model()
 export class Book extends Entity {
@@ -46,16 +47,27 @@ export class Book extends Entity {
   })
   year: number;
 
-  /**
-   * id
-   * isbn
-   * name
-   * author
-   * genre
-   * date
-   * language
-   * image url
-   */
+  @property({
+    type:'string',
+    required:true
+  })
+  imageUrl:string
+
+  @property({
+    type:'string',
+    required:true
+  })
+  genre:string
+
+  @property({
+    type:'string',
+    required:true
+  })
+  language:string
+
+  @belongsTo(() => Author)
+  authorId: string;
+
 
   /**
    * one book has one owner
@@ -68,7 +80,7 @@ export class Book extends Entity {
 }
 
 export interface BookRelations {
-
+  author?: AuthorWithRelations;
 }
 
 export type BookWithRelations = Book & BookRelations;
