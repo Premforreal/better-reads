@@ -1,15 +1,53 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import {Entity, model} from '@loopback/repository';
+import {Entity, belongsTo, hasMany, model, property} from '@loopback/repository';
+import {Book} from './Book.model';
+import {Review} from './Review.model';
 
 @model()
 export class User extends Entity {
 
-  /**
-   * id
-   * name
-   * email
-   * password (encoded ?)
-   */
+  @property({
+    type: 'date',
+    default: () => new Date()
+  })
+  created ? : string;
+
+  @property({
+    type: 'date',
+    default: () => new Date()
+  })
+  modified ? : string;
+
+  @property({
+    type: 'string',
+    id: true,
+    generated: true,
+  })
+  id: string;
+
+  @property({
+    type: 'string',
+    required: true,
+  })
+  name: string;
+
+  @property({
+    type: 'string',
+    required: true,
+  })
+  email: string;
+
+  @property({
+    type: 'string',
+    required: true,
+  })
+  password: string;
+
+  @belongsTo(() => Book)
+  bookId: string;
+
+  @hasMany(()=>Review)
+  review:Review[]
 
   /**
    * one user has many books

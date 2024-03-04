@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import {Entity, belongsTo, model, property} from '@loopback/repository';
+import {Entity, belongsTo, hasMany, model, property} from '@loopback/repository';
 import {Author, AuthorWithRelations} from './Author.model';
+import {Review} from './Review.model';
+import {User} from './User.model';
 
 @model()
 export class Book extends Entity {
@@ -68,9 +70,14 @@ export class Book extends Entity {
   @belongsTo(() => Author)
   authorId: string;
 
+  @hasMany(() => Review)
+  reviews: Review[];
+
+  @hasMany(() => User)
+  users: User[];
 
   /**
-   * one book has one owner
+   * one book has one author
    * one book has many reviews
    */
 

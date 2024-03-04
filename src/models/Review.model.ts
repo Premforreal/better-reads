@@ -1,23 +1,58 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import {Entity, model} from '@loopback/repository';
+import {Entity, belongsTo, model, property} from '@loopback/repository';
+import {Book} from './Book.model';
+import {User} from './User.model';
 
 @model()
 export class Review extends Entity {
 
+  @property({
+    type: 'date',
+    default: () => new Date()
+  })
+  created ? : string;
 
-  /**
-   * id
-   * bookId
-   * UserId
-   * Rating
-   * Title
-   * Decription
-   */
+  @property({
+    type: 'date',
+    default: () => new Date()
+  })
+  modified ? : string;
 
-  /**
-   * one review is for one book
-   * one review is from one user
-   */
+
+  @property({
+    type: 'string',
+    id: true,
+    generated: true,
+  })
+  id: string;
+
+  @property({
+    type: 'string',
+    required: true
+  })
+  Title:string
+
+  @property({
+    type: 'string',
+    required: true
+  })
+  Description:string
+
+  @property({
+    type: 'number',
+    required: true,
+    jsonSchema: {
+      minLength: 1,
+      maxLength: 5
+    }
+  })
+  Rating:number//1-5
+
+  @belongsTo(() => User)
+  UserId: string;
+
+  @belongsTo(() => Book)
+  BookId: string;
 
   constructor(data?: Partial<Review>) {
     super(data);
